@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algebra Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #121212; /* Dark blue background */
+            color: #ffffff; /* White font color */
+        }
+
+        .calculator {
+            background-color: #1e1e1e; /* Slightly lighter black background */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            position: relative; /* Position relative to allow absolute positioning */
+        }
+
+        .calculator h2 {
+            margin-bottom: 20px;
+        }
+
+        .calculator input[type="text"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #333;
+            color: #ffffff;
+        }
+
+        .calculator button {
+            display: inline-block;
+            width: calc(100% - 22px);
+            padding: 10px;
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .calculator button:hover {
+            background-color: #0056b3;
+        }
+
+        .calculator #result {
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .symbol-menu {
+            display: none;
+            position: absolute;
+            bottom: 45px;
+            left: calc(50% - 150px);
+            background-color: #333;
+            border-radius: 5px;
+            padding: 5px;
+            max-height: 200px;
+            overflow-y: auto;
+            width: 300px;
+            z-index: 1;
+        }
+
+        .symbol-menu button {
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            padding: 5px;
+            margin: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 60px;
+            white-space: nowrap;
+        }
+
+        .symbol-menu button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <h2>Algebra Calculator</h2>
+        <form id="calculatorForm">
+            <input type="text" id="expression" placeholder="Enter algebraic expression (e.g., 2 * (3 + 4))">
+            <button type="submit">Calculate</button>
+        </form>
+        <div id="result"></div>
+
+        <!-- Plus button to toggle symbol menu -->
+        <button id="plusBtn" onclick="toggleMenu()">+</button>
+
+        <!-- Mini button menu -->
+        <div id="symbolMenu" class="symbol-menu">
+            <button onclick="insertSymbol('+')">+</button>
+            <button onclick="insertSymbol('-')">-</button>
+            <button onclick="insertSymbol('×')">×</button>
+            <button onclick="insertSymbol('•')">•</button>
+            <button onclick="insertSymbol('÷')">÷</button>
+            <button onclick="insertSymbol('/')">/</button>
+            <button onclick="insertSymbol('x')">x</button>
+            <button onclick="insertSymbol('y')">y</button>
+            <button onclick="insertSymbol('z')">z</button>
+            <button onclick="insertSymbol('α')">α</button>
+            <button onclick="insertSymbol('β')">β</button>
+            <button onclick="insertSymbol('γ')">γ</button>
+            <button onclick="insertSymbol('xⁿ')">xⁿ</button>
+            <button onclick="insertSymbol('√')">√</button>
+            <button onclick="insertSymbol('³√')">³√</button>
+            <button onclick="insertSymbol('ⁿ√')">ⁿ√</button>
+            <button onclick="insertSymbol('=')">=</button>
+            <button onclick="insertSymbol('≠')">≠</button>
+            <button onclick="insertSymbol('>')">></button>
+            <button onclick="insertSymbol('<')">{'<'}</button>
+            <button onclick="insertSymbol('≥')">≥</button>
+            <button onclick="insertSymbol('≤')">≤</button>
+            <button onclick="insertSymbol('≈')">≈</button>
+            <button onclick="insertSymbol('(')">(</button>
+            <button onclick="insertSymbol(')')">)</button>
+            <button onclick="insertSymbol('[')">[</button>
+            <button onclick="insertSymbol(']')">]</button>
+            <button onclick="insertSymbol('{')">{</button>
+            <button onclick="insertSymbol('}')">}</button>
+            <button onclick="insertSymbol('∈')">∈</button>
+            <button onclick="insertSymbol('∉')">∉</button>
+            <button onclick="insertSymbol('⊂')">⊂</button>
+            <button onclick="insertSymbol('⊃')">⊃</button>
+            <button onclick="insertSymbol('∅')">∅</button>
+            <button onclick="insertSymbol('∪')">∪</button>
+            <button onclick="insertSymbol('∩')">∩</button>
+            <button onclick="insertSymbol('¬')">¬</button>
+            <button onclick="insertSymbol('∧')">∧</button>
+            <button onclick="insertSymbol('∨')">∨</button>
+            <button onclick="insertSymbol('ƒ(x)')">ƒ(x)</button>
+            <button onclick="insertSymbol('dx')">dx</button>
+            <button onclick="insertSymbol('∫')">∫</button>
+            <button onclick="insertSymbol('lim')">lim</button>
+            <button onclick="insertSymbol('∆')">∆</button>
+            <button onclick="insertSymbol('∑')">∑</button>
+            <button onclick="insertSymbol('∏')">∏</button>
+            <button onclick="insertSymbol('∞')">∞</button>
+            <button onclick="insertSymbol('||')">||</button>
+            <button onclick="insertSymbol('⊥')">⊥</button>
+            <button onclick="insertSymbol('∴')">∴</button>
+            <button onclick="insertSymbol('∃')">∃</button>
+            <button onclick="insertSymbol('∀')">∀</button>
+            <button onclick="insertSymbol('...')">...</button>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            var menu = document.getElementById('symbolMenu');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        }
+
+        document.getElementById('calculatorForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const expression = document.getElementById('expression').value;
+            calculate(expression);
+        });
+
+        function calculate(expression) {
+            fetch('/calculate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ expression })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').innerText = `Result: ${data.result}`;
+                console.log(data.explanation);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('result').innerText = 'Error: Invalid expression';
+            });
+        }
+
+        function insertSymbol(symbol) {
+            document.getElementById('expression').value += symbol;
+        }
+    </script>
+</body>
+</html>
